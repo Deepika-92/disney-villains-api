@@ -8,7 +8,7 @@ const getAllVillains = async (request, response) => {
 
     return response.send(villains)
   } catch (error) {
-    return response.status(404).send('Sorry not found')
+    return response.status(500).send('Sorry villains could not found')
   }
 }
 
@@ -18,9 +18,11 @@ const getVillainBySlug = async (request, response) => {
 
     const foundVillain = await models.villains.findOne({ where: { slug } })
 
-    return response.send(foundVillain)
+    return foundVillain
+      ? response.send(foundVillain)
+      : response.sendStatus(404)
   } catch (error) {
-    return response.status(404).send('Sorry not found')
+    return response.status(500).send('Sorry villains by slug could  not found')
   }
 }
 
@@ -36,7 +38,7 @@ const createNewVillain = async (request, response) => {
     return response.status(201).send(newVillain)
   }
   catch (error) {
-    return response.status(404).send('Sorry not found')
+    return response.status(500).send('Sorry new villain could not found')
   }
 }
 
